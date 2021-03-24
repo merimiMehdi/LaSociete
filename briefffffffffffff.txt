@@ -1,0 +1,80 @@
+
+1)
+
+
+2)
+SELECT COUNT(nom_ville) FROM bien_immobilier INNER JOIN quartier INNER join ville GROUP BY nom_ville
+
+3)
+SELECT b.code_bien ,COUNT(*) 
+FROM bien_immobilier b JOIN contrat c on c.code_bien = b.code_bien GROUP BY c.code_bien
+HAVING count(*) = ( SELECT count(*) FROM contrat c GROUP by c.code_bien ORDER by count(*) LIMIT 1) 
+
+4)
+SELECT s.nom_syndic, s.code_syndic 
+from syndic s where s.code_syndic in (select c.code_syndic from contrat c INNER join bien_immobilier b on b.code_bien) 
+
+5)
+SELECT bien_immobilier.*,MAX(contrat.prix_mensuel) FROM bien_immobilier inner join contrat on contrat.code_bien=bien_immobilier.code_bien 
+
+6)
+SELECT bien_immobilier.,MIN(bien_immobilier.date_construction) 
+FROM bien_immobilier 
+inner join quartier 
+on quartier.code_quartier=bien_immobilier.code_quartier 
+inner join ville 
+on ville.code_ville=quartier.code_ville 
+inner join region 
+on region.code_region=ville.code_region
+
+7)
+SELECT syndic.nom_syndic, region.nom_region
+FROM syndic
+INNER JOIN contrat
+on contrat.code_syndic=syndic.code_syndic
+inner join  bien_immobilier
+on bien_immobilier.code_bien=contrat.code_bien
+inner join quartier
+on quartier.code_quartier=bien_immobilier.code_quartier
+inner join ville
+on ville.code_ville=quartier.code_quartier
+inner join region
+on region.code_region=ville.code_region
+HAVING MAX(contrat.numcontrat)
+
+8)
+SELECT quartier.*
+FROM quartier
+inner join bien_immobilier
+on bien_immobilier.code_quartier=quartier.code_quartier
+inner join contrat
+on contrat.code_bien=bien_immobilier.code_bien
+HAVING COUNT(contrat.numcontrat) > 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
